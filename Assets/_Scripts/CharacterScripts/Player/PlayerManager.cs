@@ -1,5 +1,6 @@
 using System;
 using Core.Character;
+using Core.Character.Player.Camera;
 using UnityEngine;
 
 namespace Core.Character.Player
@@ -8,23 +9,23 @@ namespace Core.Character.Player
     {
         [field: SerializeField] public PlayerCameraManager PlayerCameraManager { get; private set; }
 
-        // TODO: DO NOT DO THIS
-        [SerializeField] public PlayerInputManager _inputManager;
+        [field:SerializeField] public PlayerInputManager InputManager { get; private set; }
 
-        [SerializeField] private PlayerLocomotionManager _playerLocomotionPlayer;
+        [SerializeField] private PlayerLocomotionManager _playerLocomotionManager;
 
         protected override void Awake()
         {
             base.Awake();
-            _inputManager = GetComponent<PlayerInputManager>();
-            _playerLocomotionPlayer = GetComponent<PlayerLocomotionManager>();
+            /*_playerLocomotionManager = GetComponentInChildren<PlayerLocomotionManager>();
+            InputManager = GetComponentInChildren<PlayerInputManager>();
+            PlayerCameraManager = GetComponentInChildren<PlayerCameraManager>();*/
         }
 
 
 
         private void HandleAllInput()
         {
-            _playerLocomotionPlayer.GetVerticalAndHorizontalInputs(_inputManager.MovementInput);
+            _playerLocomotionManager.GetVerticalAndHorizontalInputs(InputManager.MovementInput);
         }
 
         protected override void Update()
@@ -35,13 +36,12 @@ namespace Core.Character.Player
 
         private void FixedUpdate()
         {
-            _playerLocomotionPlayer.HandleAllMovement();
+            _playerLocomotionManager.HandleAllMovement();
         }
 
         protected override void LateUpdate()
         {
             base.LateUpdate();
-
         }
     }
 }

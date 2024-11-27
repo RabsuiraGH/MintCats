@@ -4,6 +4,7 @@ namespace Core.Character
 {
     public class CharacterLocomotionManager : MonoBehaviour
     {
+        [SerializeField] protected Transform _characterTransform;
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
 
         [Header("MOVEMENT SETTINGS")]
@@ -15,7 +16,6 @@ namespace Core.Character
 
         protected virtual void Awake()
         {
-            CharacterController = GetComponent<CharacterController>();
         }
 
         protected virtual void SetMovementSpeed(float movementSpeed)

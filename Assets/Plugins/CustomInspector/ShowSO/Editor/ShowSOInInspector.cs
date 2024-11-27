@@ -1,13 +1,13 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace CoreEditor.CustomInspector
+namespace CustomInspector
 {
     [CustomPropertyDrawer(typeof(ScriptableObject), true)]
     public class ScriptableObjectDrawer : PropertyDrawer
     {
         // Cached scriptable object editor
-        private Editor editor = null;
+        private UnityEditor.Editor editor = null;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -28,7 +28,7 @@ namespace CoreEditor.CustomInspector
 
                 // Draw object properties
                 if (!editor)
-                    Editor.CreateCachedEditor(property.objectReferenceValue, null, ref editor);
+                    UnityEditor.Editor.CreateCachedEditor(property.objectReferenceValue, null, ref editor);
                 if(editor != null)
                     editor.OnInspectorGUI();
 

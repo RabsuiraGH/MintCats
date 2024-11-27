@@ -1,12 +1,14 @@
 using UnityEngine;
 
-namespace Core.Character.Player
+namespace Core.Character.Player.Camera
 {
     public class ThirdPersonPlayerCamera : PlayerCamera
     {
+        [Header("THIRD PERSON CAMERA")]
+
         [Header("CAMERA FOLLOW")]
         [SerializeField] private float _cameraFollowSmoothTime = 0.01f;
-        [field: SerializeField] public float DefaultCameraZPosition { get; set; } = -2.5f;
+        [field: SerializeField] public float CameraZPosition { get; set; } = -2.5f;
 
         [Header("CAMERA COLLISIONS")]
         [SerializeField] private LayerMask _cameraCollisionLayer;
@@ -16,6 +18,16 @@ namespace Core.Character.Player
         [SerializeField] private float _targetCameraPosition;
         [SerializeField] private Vector3 _cameraObjectPosition;
         [SerializeField] private Vector3 _cameraVelocity;
+        [SerializeField] protected Transform _cameraUpAndDownPivot;
+
+        [field: SerializeField] public float CameraMaxDistance{ get; private set; }
+        [field: SerializeField] public float CameraMinDistance{ get; private set; }
+
+        [SerializeField] private float _cameraMaxHeight;
+        [SerializeField] private float _cameraMinHeight;
+
+        [SerializeField] private float _cameraHeight;
+        [SerializeField] private Transform _heightPivot;
 
         public void ApplyCameraConfig(PlayerCameraConfig config)
         {
@@ -28,7 +40,7 @@ namespace Core.Character.Player
             _inverseX = config.InverseX;
             _sensitiveY = config.SensitiveY;
             _sensitiveX = config.SensitiveX;
-            DefaultCameraZPosition = config.DefaultCameraPosition;
+            CameraZPosition = config.DefaultCameraPosition;
         }
 
         public override void HandleAllCameraActions()
@@ -40,17 +52,48 @@ namespace Core.Character.Player
             HandleCollision();
         }
 
+        protected override void SetRotation()
+        {
+            Vector3 cameraRotation = Vector3.zero;
+            Quaternion targetRotation;
+
+            cameraRotation.y = LeftAndRightLookAngle;
+            targetRotation = Quaternion.Euler(cameraRotation);
+
+            CameraTransform.rotation = targetRotation;
+            cameraRotation = Vector3.zero;
+            cameraRotation.x = UpAndDownLookAngle;
+            targetRotation = Quaternion.Euler(cameraRotation);
+            _cameraUpAndDownPivot.localRotation = targetRotation;
+        }
+
+        public void UpdateCameraLocationViaZoom(float currentZoom)
+        {
+            CameraZPosition = -currentZoom;
+            CalculateCameraHeight(currentZoom);
+        }
+
+        private void CalculateCameraHeight(float planeDistance)
+        {
+            _cameraHeight = Mathf.Lerp(_cameraMaxHeight,_cameraMinHeight, (planeDistance - CameraMinDistance)/(CameraMaxDistance - CameraMinDistance));
+            _cameraHeight = Mathf.Clamp(_cameraHeight, _cameraMinHeight, _cameraMaxHeight);
+
+
+            Vector3 cameraTransformPosition = _heightPivot.position;
+            cameraTransformPosition.y = _cameraHeight;
+            _heightPivot.position = cameraTransformPosition;
+        }
         private void HandleCollision()
         {
-            _targetCameraPosition = DefaultCameraZPosition;
+            _targetCameraPosition = CameraZPosition;
 
-            Vector3 direction = CameraObject.transform.position - _cameraPivotTransform.position;
+            Vector3 direction = CameraObject.transform.position - _cameraUpAndDownPivot.position;
             direction.Normalize();
 
-            if (Physics.SphereCast(_cameraPivotTransform.position, _cameraCollisionRadius, direction,
+            if (Physics.SphereCast(_cameraUpAndDownPivot.position, _cameraCollisionRadius, direction,
                                    out RaycastHit hit, Mathf.Abs(_targetCameraPosition), _cameraCollisionLayer))
             {
-                float distanceFromHitObject = Vector3.Distance(_cameraPivotTransform.position, hit.point);
+                float distanceFromHitObject = Vector3.Distance(_cameraUpAndDownPivot.position, hit.point);
 
                 _targetCameraPosition = -(distanceFromHitObject - _cameraCollisionRadius);
             }
@@ -82,27 +125,17 @@ namespace Core.Character.Player
 
 
             LeftAndRightLookAngle +=
-                inverseX * PlayerManager._inputManager.CameraInput.x * _leftAndRightRotationSpeed * Time.fixedDeltaTime *
+                inverseX * PlayerManager.InputManager.CameraInput.x * _leftAndRightRotationSpeed * Time.fixedDeltaTime *
                 _sensitiveX;
 
             UpAndDownLookAngle +=
-                inverseY * PlayerManager._inputManager.CameraInput.y * _upAndDownRotationSpeed * Time.fixedDeltaTime *
+                inverseY * PlayerManager.InputManager.CameraInput.y * _upAndDownRotationSpeed * Time.fixedDeltaTime *
                 _sensitiveY;
 
             UpAndDownLookAngle = Mathf.Clamp(UpAndDownLookAngle, _minimumPivot, _maximumPivot);
 
 
-            Vector3 cameraRotation = Vector3.zero;
-            Quaternion targetRotation;
-
-            cameraRotation.y = LeftAndRightLookAngle;
-            targetRotation = Quaternion.Euler(cameraRotation);
-
-            CameraTransform.rotation = targetRotation;
-            cameraRotation = Vector3.zero;
-            cameraRotation.x = UpAndDownLookAngle;
-            targetRotation = Quaternion.Euler(cameraRotation);
-            _cameraPivotTransform.localRotation = targetRotation;
+            SetRotation();
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Core
+namespace Core.Character.Player.Camera
 {
     public class FirstPersonCamera : PlayerCamera
     {
@@ -12,25 +12,29 @@ namespace Core
             }
         }
 
-        private void HandleRotation()
+        protected override void SetRotation()
         {
-            int inverseY = _inverseY ? -1 : 1;
-            int inverseX = _inverseX ? -1 : 1;
-
-
-            LeftAndRightLookAngle += inverseX * PlayerManager._inputManager.CameraInput.x * _leftAndRightRotationSpeed * Time.fixedDeltaTime * _sensitiveX;
-
-            UpAndDownLookAngle += inverseY * PlayerManager._inputManager.CameraInput.y * _upAndDownRotationSpeed * Time.fixedDeltaTime * _sensitiveY;
-
-            UpAndDownLookAngle = Mathf.Clamp(UpAndDownLookAngle, _minimumPivot, _maximumPivot);
-
-
             Vector3 cameraRotation = Vector3.zero;
 
             cameraRotation.x = UpAndDownLookAngle;
 
             Quaternion targetRotation = Quaternion.Euler(cameraRotation);
             CameraTransform.localRotation = targetRotation;
+        }
+
+        private void HandleRotation()
+        {
+            int inverseY = _inverseY ? -1 : 1;
+            int inverseX = _inverseX ? -1 : 1;
+
+
+            LeftAndRightLookAngle += inverseX * PlayerManager.InputManager.CameraInput.x * _leftAndRightRotationSpeed * Time.fixedDeltaTime * _sensitiveX;
+
+            UpAndDownLookAngle += inverseY * PlayerManager.InputManager.CameraInput.y * _upAndDownRotationSpeed * Time.fixedDeltaTime * _sensitiveY;
+
+            UpAndDownLookAngle = Mathf.Clamp(UpAndDownLookAngle, _minimumPivot, _maximumPivot);
+
+            SetRotation();
         }
     }
 }

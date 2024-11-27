@@ -1,10 +1,13 @@
 using Core.Character;
+using Core.Character.Player.Camera;
 using UnityEngine;
 
 namespace Core.Character.Player
 {
     public class PlayerLocomotionManager : CharacterLocomotionManager
     {
+
+
         [Header("PLAYER EXTRAS")]
         [SerializeField] private PlayerManager _playerManager;
         [field: SerializeField] public float VerticalInputMovement { get; set; }
@@ -13,8 +16,6 @@ namespace Core.Character.Player
         protected override void Awake()
         {
             base.Awake();
-
-            _playerManager = GetComponent<PlayerManager>();
         }
 
         public void HandleAllMovement()
@@ -66,22 +67,10 @@ namespace Core.Character.Player
 
         private void FirstPersonRotation()
         {
-            /*_targetRotationDirection = Vector3.zero;
-            _targetRotationDirection = _playerManager.PlayerCamera.CameraObject.transform.forward;
-            _targetRotationDirection = _targetRotationDirection + _playerManager.PlayerCamera.CameraObject.transform.right;
-
-            _targetRotationDirection.y = 0f;
-            _targetRotationDirection.Normalize();
-
-            if (_targetRotationDirection == Vector3.zero)
-            {
-                _targetRotationDirection = transform.forward;
-            }*/
-            //_targetRotationDirection =new Vector3(0, 0, _playerManager.PlayerCamera.LeftAndRightLookAngle);
             Quaternion newRotation = Quaternion.Euler(0, _playerManager.PlayerCameraManager.ActivePlayerCamera.LeftAndRightLookAngle, 0);
             Quaternion targetRotation =
-                Quaternion.Slerp(transform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
-            transform.rotation = targetRotation;
+                Quaternion.Slerp(_characterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
+            _characterTransform.rotation = targetRotation;
         }
 
         private void ThirdPersonMovement()
@@ -109,13 +98,13 @@ namespace Core.Character.Player
 
             if (_targetRotationDirection == Vector3.zero)
             {
-                _targetRotationDirection = transform.forward;
+                _targetRotationDirection = _characterTransform.forward;
             }
 
             Quaternion newRotation = Quaternion.LookRotation(_targetRotationDirection);
             Quaternion targetRotation =
-                Quaternion.Slerp(transform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
-            transform.rotation = targetRotation;
+                Quaternion.Slerp(_characterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
+            _characterTransform.rotation = targetRotation;
         }
 
     }

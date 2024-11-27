@@ -7,7 +7,9 @@
         "EasyButtons.Editor",
         "Zenject",
         "Unity.TextMeshPro",
-        "Unity.Animation.Rigging"
+        "Unity.Animation.Rigging",
+        "R3.Unity",
+        "CustomInspector"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

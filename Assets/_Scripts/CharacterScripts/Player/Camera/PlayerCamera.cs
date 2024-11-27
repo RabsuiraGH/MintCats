@@ -1,17 +1,18 @@
 using Core.Character.Player;
 using UnityEngine;
 
-namespace Core
+
+namespace Core.Character.Player.Camera
 {
     public abstract class PlayerCamera : MonoBehaviour
     {
-
         [SerializeField] protected PlayerCameraConfig _config;
-
-        [field: SerializeField] public Camera CameraObject { get; private set; }
+        [field:Header("MAIN OBJECTS")]
+        [field: SerializeField] public UnityEngine.Camera CameraObject { get; private set; }
         [field: SerializeField] public Transform CameraTransform { get; private set; }
         [field: SerializeField] public PlayerManager PlayerManager { get; set; }
 
+        [Header("CONTROLS SETTINGS")]
         [SerializeField] protected float _upAndDownRotationSpeed = 150;
         [SerializeField] protected float _leftAndRightRotationSpeed = 220;
 
@@ -23,9 +24,7 @@ namespace Core
         [SerializeField] protected float _sensitiveY;
         [SerializeField] protected float _sensitiveX;
 
-        [SerializeField] protected Transform _cameraPivotTransform;
-
-
+        [field:Header("ROTATION VALUES")]
         [field: SerializeField] public float LeftAndRightLookAngle { get; protected set; }
         [field: SerializeField] public float UpAndDownLookAngle { get; protected set; }
 
@@ -43,9 +42,13 @@ namespace Core
         {
             LeftAndRightLookAngle = fromCamera.LeftAndRightLookAngle;
             UpAndDownLookAngle = fromCamera.UpAndDownLookAngle;
+            SetRotation();
         }
 
 
+
         public abstract void HandleAllCameraActions();
+
+        protected abstract void SetRotation();
     }
 }
