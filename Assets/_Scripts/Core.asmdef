@@ -1,0 +1,21 @@
+{
+    "name": "Core",
+    "rootNamespace": "Core",
+    "references": [
+        "Unity.InputSystem",
+        "EasyButtons",
+        "EasyButtons.Editor",
+        "Zenject",
+        "Unity.TextMeshPro",
+        "Unity.Animation.Rigging"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
