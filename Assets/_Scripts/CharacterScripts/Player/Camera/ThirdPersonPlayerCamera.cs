@@ -106,7 +106,7 @@ namespace Core.Character.Player.Camera
             _cameraObjectPosition.z = Mathf.Lerp(CameraObject.transform.localPosition.z, _targetCameraPosition, 0.1f);
             CameraObject.transform.localPosition = _cameraObjectPosition;
         }
-
+        [EasyButtons.Button]
         private void HandleFollowTarget()
         {
             Vector3 targetCameraPosition = Vector3.SmoothDamp(

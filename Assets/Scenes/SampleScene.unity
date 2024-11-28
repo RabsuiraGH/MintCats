@@ -890,8 +890,8 @@ MonoBehaviour:
   <CameraObject>k__BackingField: {fileID: 201748480}
   <CameraTransform>k__BackingField: {fileID: 201748476}
   <PlayerManager>k__BackingField: {fileID: 203550298}
-  _upAndDownRotationSpeed: 150
-  _leftAndRightRotationSpeed: 220
+  _upAndDownRotationSpeed: 120
+  _leftAndRightRotationSpeed: 169
   _minimumPivot: -30
   _maximumPivot: 60
   _inverseY: 1
@@ -982,21 +982,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e611ed8bff4aa44eb501d0389e736bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 0}
-  _cameraConfig: {fileID: 11400000, guid: 521d654799b5ce14e8ad0a04f9052544, type: 2}
-  _showHide: {fileID: 1342615451}
-  _panel: {fileID: 459371207}
-  _cameraSmoothTimeInput: {fileID: 1521044558}
-  _upAndDownRotationSpeedInput: {fileID: 338202231}
-  _leftAndRightRotationSpeedInput: {fileID: 1674868753}
-  _minimumPivotInput: {fileID: 108526892}
-  _maximumPivotInput: {fileID: 500301985}
-  _inverseYToggle: {fileID: 1293860005}
-  _inverseXToggle: {fileID: 673037697}
-  _sensitiveYInput: {fileID: 2037525958}
-  _sensitiveXInput: {fileID: 1448621160}
-  _defaultCameraPositionInput: {fileID: 277017417}
-  _applyButton: {fileID: 386714068}
 --- !u!114 &205423181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1816,7 +1801,7 @@ MonoBehaviour:
   <LeftAndRightLookAngle>k__BackingField: 0
   <UpAndDownLookAngle>k__BackingField: 0
   _cameraFollowSmoothTime: 0.01
-  <DefaultCameraZPosition>k__BackingField: -2.5
+  <CameraZPosition>k__BackingField: -2.5
   _cameraCollisionLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -7765,7 +7750,7 @@ Transform:
   m_GameObject: {fileID: 1228853877}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5.1, y: 0, z: -5.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8478,9 +8463,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8228a84c32dd129418aaed8e5ba64766, type: 3}
       insertIndex: -1
       addedObject: {fileID: 201748476}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8228a84c32dd129418aaed8e5ba64766, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1835314472}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8228a84c32dd129418aaed8e5ba64766, type: 3}
       insertIndex: -1
       addedObject: {fileID: 203550297}
@@ -11518,37 +11500,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
---- !u!1 &1835314471
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1835314472}
-  m_Layer: 0
-  m_Name: FirstPersonCameraPivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1835314472
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1835314471}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 982405733}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1854032734
 GameObject:
   m_ObjectHideFlags: 0

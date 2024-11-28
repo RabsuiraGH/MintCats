@@ -70,6 +70,7 @@ namespace Core.Character.Player
             Quaternion newRotation = Quaternion.Euler(0, _playerManager.PlayerCameraManager.ActivePlayerCamera.LeftAndRightLookAngle, 0);
             Quaternion targetRotation =
                 Quaternion.Slerp(_characterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
+
             _characterTransform.rotation = targetRotation;
         }
 

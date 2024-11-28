@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchCameraView",
+                    "type": "Button",
+                    "id": "3bf7fc99-859c-42f4-905c-2fc7bbf0b9ae",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -532,6 +541,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "MouseScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "701c11c2-1038-4bc3-b92d-43a701b72136",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCameraView",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

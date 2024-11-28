@@ -8,11 +8,16 @@ namespace Core.Character.Player
 {
     public class PlayerInputManager : MonoBehaviour
     {
+        [Header("MOVEMENT INPUT")]
         [field: SerializeField] public Vector2 MovementInput { get; private set; }
-        [field: SerializeField] public Vector2 CameraInput { get; private set; }
 
+        [Header("CAMERA INPUT")]
+        [field: SerializeField] public Vector2 CameraInput { get; private set; }
         [field: SerializeField] public float MouseScrollInput { get; private set; }
         [field: SerializeField] public float ZoomInput { get; private set; }
+
+        public event Action OnSwitchCameraViewRequested;
+
 
         [SerializeField] private InputMaps _baseControls;
 
@@ -30,12 +35,13 @@ namespace Core.Character.Player
 
         private void ReadPlayerInputOnce()
         {
-            // READ PLAYER MOVEMENT
             _baseControls.Gameplay.Movement.performed += i => MovementInput = i.ReadValue<Vector2>();
 
             _baseControls.Gameplay.Look.performed += i => CameraInput = i.ReadValue<Vector2>();
 
             _baseControls.Gameplay.MouseScroll.performed += i => MouseScrollInput = i.ReadValue<float>();
+
+            _baseControls.Gameplay.SwitchCameraView.performed += i => OnSwitchCameraViewRequested?.Invoke();
         }
 
         private void ReadPlayerInputRepeatedly()

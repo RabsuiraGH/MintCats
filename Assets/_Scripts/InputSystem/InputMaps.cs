@@ -127,6 +127,15 @@ namespace Core.GameInputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchCameraView"",
+                    ""type"": ""Button"",
+                    ""id"": ""3bf7fc99-859c-42f4-905c-2fc7bbf0b9ae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -556,6 +565,17 @@ namespace Core.GameInputSystem
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""MouseScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""701c11c2-1038-4bc3-b92d-43a701b72136"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchCameraView"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1154,6 +1174,7 @@ namespace Core.GameInputSystem
             m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
             m_Gameplay_ZoomCondition = m_Gameplay.FindAction("ZoomCondition", throwIfNotFound: true);
             m_Gameplay_MouseScroll = m_Gameplay.FindAction("MouseScroll", throwIfNotFound: true);
+            m_Gameplay_SwitchCameraView = m_Gameplay.FindAction("SwitchCameraView", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1244,6 +1265,7 @@ namespace Core.GameInputSystem
         private readonly InputAction m_Gameplay_Sprint;
         private readonly InputAction m_Gameplay_ZoomCondition;
         private readonly InputAction m_Gameplay_MouseScroll;
+        private readonly InputAction m_Gameplay_SwitchCameraView;
         public struct GameplayActions
         {
             private @InputMaps m_Wrapper;
@@ -1259,6 +1281,7 @@ namespace Core.GameInputSystem
             public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
             public InputAction @ZoomCondition => m_Wrapper.m_Gameplay_ZoomCondition;
             public InputAction @MouseScroll => m_Wrapper.m_Gameplay_MouseScroll;
+            public InputAction @SwitchCameraView => m_Wrapper.m_Gameplay_SwitchCameraView;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1301,6 +1324,9 @@ namespace Core.GameInputSystem
                 @MouseScroll.started += instance.OnMouseScroll;
                 @MouseScroll.performed += instance.OnMouseScroll;
                 @MouseScroll.canceled += instance.OnMouseScroll;
+                @SwitchCameraView.started += instance.OnSwitchCameraView;
+                @SwitchCameraView.performed += instance.OnSwitchCameraView;
+                @SwitchCameraView.canceled += instance.OnSwitchCameraView;
             }
 
             private void UnregisterCallbacks(IGameplayActions instance)
@@ -1338,6 +1364,9 @@ namespace Core.GameInputSystem
                 @MouseScroll.started -= instance.OnMouseScroll;
                 @MouseScroll.performed -= instance.OnMouseScroll;
                 @MouseScroll.canceled -= instance.OnMouseScroll;
+                @SwitchCameraView.started -= instance.OnSwitchCameraView;
+                @SwitchCameraView.performed -= instance.OnSwitchCameraView;
+                @SwitchCameraView.canceled -= instance.OnSwitchCameraView;
             }
 
             public void RemoveCallbacks(IGameplayActions instance)
@@ -1531,6 +1560,7 @@ namespace Core.GameInputSystem
             void OnSprint(InputAction.CallbackContext context);
             void OnZoomCondition(InputAction.CallbackContext context);
             void OnMouseScroll(InputAction.CallbackContext context);
+            void OnSwitchCameraView(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

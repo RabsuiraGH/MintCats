@@ -16,7 +16,7 @@ namespace Core.Character.Player.Camera
 
         [SerializeField] private PlayerInputManager _playerInputManager;
 
-        [SerializeField] private ReactiveProperty<float> _cameraCurrentZoom = new();
+        [SerializeField] private readonly ReactiveProperty<float> _cameraCurrentZoom = new();
         [SerializeField] private float _cameraTargetZoom;
         [SerializeField] private float _zoomSensitivity;
         [SerializeField] private float _zoomSpeed;
@@ -27,8 +27,15 @@ namespace Core.Character.Player.Camera
 
         private void Start()
         {
+            // TODO: Maybe unsubscribe by composite disp
             _cameraCurrentZoom.Subscribe(SwitchView);
             _cameraCurrentZoom.Subscribe(UpdateThirdPersonCameraLocation);
+            _playerInputManager.OnSwitchCameraViewRequested += SwitchCamera;
+        }
+
+        private void OnDestroy()
+        {
+            _playerInputManager.OnSwitchCameraViewRequested -= SwitchCamera;
         }
 
         /// <summary>
@@ -49,13 +56,10 @@ namespace Core.Character.Player.Camera
             // switches view if conditions are met
             if (ActivePlayerCamera != _firstPersonCamera && currentZoom <= _firstThirdViewEdgeDistance)
             {
-                // TODO: UNCOMMENT IF WE WANNA ROTATE PLAYER TO LOOK AT NEEDED POINT
-                //_firstPersonCamera.SyncCamera(_thirdPersonPlayerCamera);
                 SetCamera(_firstPersonCamera);
             }
             else if (ActivePlayerCamera != _thirdPersonPlayerCamera && currentZoom > _firstThirdViewEdgeDistance)
             {
-                _thirdPersonPlayerCamera.SyncCamera(_firstPersonCamera);
                 SetCamera(_thirdPersonPlayerCamera);
             }
         }
@@ -67,12 +71,18 @@ namespace Core.Character.Player.Camera
         {
             if (newCamera is FirstPersonCamera)
             {
+                // TODO: UNCOMMENT IF WE WANNA ROTATE PLAYER TO LOOK AT NEEDED POINT
+                //_firstPersonCamera.SyncCamera(_thirdPersonPlayerCamera);
                 PlayerViewMode = PlayerViewMode.FirstPerson;
                 _firstPersonCamera.ToggleCamera(true);
                 _thirdPersonPlayerCamera.ToggleCamera(false);
             }
             else if (newCamera is ThirdPersonPlayerCamera)
             {
+                if (_cameraCurrentZoom.Value <= _firstThirdViewEdgeDistance)
+                    _cameraTargetZoom = _firstThirdViewEdgeDistance * 1.05f;
+
+                _thirdPersonPlayerCamera.SyncCamera(_firstPersonCamera);
                 PlayerViewMode = PlayerViewMode.ThirdPerson;
                 _firstPersonCamera.ToggleCamera(false);
                 _thirdPersonPlayerCamera.ToggleCamera(true);
@@ -81,6 +91,29 @@ namespace Core.Character.Player.Camera
             ActivePlayerCamera = newCamera;
             OnPlayerViewChanged?.Invoke(ActivePlayerCamera, PlayerViewMode);
         }
+        /// <summary>
+        /// Switches cameras sequentially
+        /// </summary>
+        private void SwitchCamera()
+        {
+            if(ActivePlayerCamera is FirstPersonCamera)
+            {
+                SetCamera(_thirdPersonPlayerCamera);
+            }
+            else if(ActivePlayerCamera is ThirdPersonPlayerCamera)
+            {
+                SetCamera(_firstPersonCamera);
+            }
+        }
+
+
+#if UNITY_EDITOR
+        [EasyButtons.Button]
+        private void SwitchToFirstPerson() => SetCamera(_firstPersonCamera);
+
+        [EasyButtons.Button]
+        private void SwitchToThirdPerson() => SetCamera(_thirdPersonPlayerCamera);
+#endif
 
         /// <summary>
         /// Handles zoom input

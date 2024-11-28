@@ -9,7 +9,7 @@
         "Unity.TextMeshPro",
         "Unity.Animation.Rigging",
         "R3.Unity",
-        "CustomInspector"
+        "CustomInspector.Readonly"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

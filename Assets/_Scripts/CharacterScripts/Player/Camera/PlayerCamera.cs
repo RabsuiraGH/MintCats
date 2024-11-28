@@ -1,4 +1,5 @@
 using Core.Character.Player;
+using CustomInspector;
 using UnityEngine;
 
 
@@ -25,8 +26,8 @@ namespace Core.Character.Player.Camera
         [SerializeField] protected float _sensitiveX;
 
         [field:Header("ROTATION VALUES")]
-        [field: SerializeField] public float LeftAndRightLookAngle { get; protected set; }
-        [field: SerializeField] public float UpAndDownLookAngle { get; protected set; }
+        [field: SerializeField, ReadOnly] public float LeftAndRightLookAngle { get; protected set; }
+        [field: SerializeField, ReadOnly] public float UpAndDownLookAngle { get; protected set; }
 
         public void ApplyConfig(PlayerCameraConfig config)
         {
