@@ -6,16 +6,40 @@ namespace Core.Character.Player
 {
     public class PlayerLocomotionManager : CharacterLocomotionManager
     {
-
-
         [Header("PLAYER EXTRAS")]
         [SerializeField] private PlayerManager _playerManager;
+
+        [SerializeField] private float _backwardsMovementSpeed;
+
         [field: SerializeField] public float VerticalInputMovement { get; set; }
         [field: SerializeField] public float HorizontalInputMovement { get; set; }
+
+        [SerializeField] private PlayerLocomotionConfig _firstPersonConfig;
+        [SerializeField] private PlayerLocomotionConfig _thirdPersonConfig;
 
         protected override void Awake()
         {
             base.Awake();
+            _playerManager.PlayerCameraManager.OnPlayerViewChanged += ApplyViewSettings;
+        }
+
+        private void ApplyViewSettings(PlayerCamera _, PlayerViewMode viewMode)
+        {
+            if (_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.FirstPerson)
+            {
+                ApplyConfig(_firstPersonConfig);
+            }
+            else if (_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.ThirdPerson)
+            {
+                ApplyConfig(_thirdPersonConfig);
+            }
+        }
+
+        protected override void ApplyConfig(CharacterLocomotionConfig config)
+        {
+            base.ApplyConfig(config);
+            if (config is not PlayerLocomotionConfig playerConfig) return;
+            _backwardsMovementSpeed = playerConfig.BackwardsMovementSpeed;
         }
 
         public void HandleAllMovement()
@@ -32,11 +56,11 @@ namespace Core.Character.Player
 
         private void HandleGroundedMovement()
         {
-            if(_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.FirstPerson)
+            if (_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.FirstPerson)
             {
                 FirstPersonMovement();
             }
-            else if(_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.ThirdPerson)
+            else if (_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.ThirdPerson)
             {
                 ThirdPersonMovement();
             }
@@ -49,17 +73,26 @@ namespace Core.Character.Player
 
             _movementDirection.y = 0f;
             _movementDirection.Normalize();
-            // TODO: REDUCE BACKWARD MOVEMENT SPEED
+
+            if (_movementDirection.z < 0)
+            {
+                _currentMovementSpeed = _backwardsMovementSpeed;
+            }
+            else
+            {
+                _currentMovementSpeed = _movementSpeed;
+            }
+
             Move();
         }
 
         private void HandleRotation()
         {
-            if(_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.FirstPerson)
+            if (_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.FirstPerson)
             {
                 FirstPersonRotation();
             }
-            else if(_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.ThirdPerson)
+            else if (_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.ThirdPerson)
             {
                 ThirdPersonRotation();
             }
@@ -83,8 +116,10 @@ namespace Core.Character.Player
             _movementDirection.y = 0f;
             _movementDirection.Normalize();
 
+
             Move();
         }
+
         private void ThirdPersonRotation()
         {
             _targetRotationDirection = Vector3.zero;
@@ -107,6 +142,5 @@ namespace Core.Character.Player
                 Quaternion.Slerp(_characterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
             _characterTransform.rotation = targetRotation;
         }
-
     }
 }

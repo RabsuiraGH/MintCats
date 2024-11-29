@@ -577,12 +577,17 @@ MonoBehaviour:
   _characterTransform: {fileID: 982405733}
   <CharacterController>k__BackingField: {fileID: 982405729}
   _movementDirection: {x: 0, y: 0, z: 0}
+  _currentMovementSpeed: 0
   _movementSpeed: 3
   _targetRotationDirection: {x: 0, y: 0, z: 0}
   _rotationSpeed: 5
+  _currentConfig: {fileID: 0}
   _playerManager: {fileID: 203550298}
+  _backwardsMovementSpeed: 0
   <VerticalInputMovement>k__BackingField: 0
   <HorizontalInputMovement>k__BackingField: 0
+  _firstPersonConfig: {fileID: 11400000, guid: ec947083ae929544e916c540668f486a, type: 2}
+  _thirdPersonConfig: {fileID: 11400000, guid: 8e7766c45d9894e458b5f788e317c009, type: 2}
 --- !u!1 &161767854
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,12 +891,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2e7c1b58a65ee46a902890a3aead88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _config: {fileID: 11400000, guid: 521d654799b5ce14e8ad0a04f9052544, type: 2}
   <CameraObject>k__BackingField: {fileID: 201748480}
   <CameraTransform>k__BackingField: {fileID: 201748476}
   <PlayerManager>k__BackingField: {fileID: 203550298}
-  _upAndDownRotationSpeed: 120
-  _leftAndRightRotationSpeed: 169
+  _upAndDownRotationSpeed: 150
+  _leftAndRightRotationSpeed: 220
   _minimumPivot: -30
   _maximumPivot: 60
   _inverseY: 1
@@ -900,6 +904,7 @@ MonoBehaviour:
   _sensitiveX: 0.1
   <LeftAndRightLookAngle>k__BackingField: 0
   <UpAndDownLookAngle>k__BackingField: 0
+  _currentConfig: {fileID: 11400000, guid: e2f81e1e7765d5e409ecd0df3801ebfa, type: 2}
 --- !u!1 &203550296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1786,7 +1791,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a6c899907f6c9469da35a2efc0b1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _config: {fileID: 0}
   <CameraObject>k__BackingField: {fileID: 330585545}
   <CameraTransform>k__BackingField: {fileID: 1228853879}
   <PlayerManager>k__BackingField: {fileID: 203550298}
@@ -1800,22 +1804,23 @@ MonoBehaviour:
   _sensitiveX: 0.1
   <LeftAndRightLookAngle>k__BackingField: 0
   <UpAndDownLookAngle>k__BackingField: 0
+  _currentConfig: {fileID: 0}
   _cameraFollowSmoothTime: 0.01
-  <CameraZPosition>k__BackingField: -2.5
+  _cameraZPosition: -2.5
   _cameraCollisionLayer:
     serializedVersion: 2
     m_Bits: 64
   _cameraCollisionRadius: 0.2
-  _targetCameraPosition: 0
-  _cameraObjectPosition: {x: 0, y: 0, z: 0}
-  _cameraVelocity: {x: 0, y: 0, z: 0}
-  _cameraUpAndDownPivot: {fileID: 756977520}
   <CameraMaxDistance>k__BackingField: 5
   <CameraMinDistance>k__BackingField: 1
   _cameraMaxHeight: 1.6
   _cameraMinHeight: 1.2
   _cameraHeight: 0
   _heightPivot: {fileID: 756977520}
+  _targetCameraPosition: 0
+  _cameraObjectPosition: {x: 0, y: 0, z: 0}
+  _cameraVelocity: {x: 0, y: 0, z: 0}
+  _cameraUpAndDownPivot: {fileID: 756977520}
 --- !u!1 &338202229
 GameObject:
   m_ObjectHideFlags: 0

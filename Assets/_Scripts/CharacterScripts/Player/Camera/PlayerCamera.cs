@@ -1,3 +1,4 @@
+using System;
 using Core.Character.Player;
 using CustomInspector;
 using UnityEngine;
@@ -7,7 +8,6 @@ namespace Core.Character.Player.Camera
 {
     public abstract class PlayerCamera : MonoBehaviour
     {
-        [SerializeField] protected PlayerCameraConfig _config;
         [field:Header("MAIN OBJECTS")]
         [field: SerializeField] public UnityEngine.Camera CameraObject { get; private set; }
         [field: SerializeField] public Transform CameraTransform { get; private set; }
@@ -29,9 +29,22 @@ namespace Core.Character.Player.Camera
         [field: SerializeField, ReadOnly] public float LeftAndRightLookAngle { get; protected set; }
         [field: SerializeField, ReadOnly] public float UpAndDownLookAngle { get; protected set; }
 
-        public void ApplyConfig(PlayerCameraConfig config)
+        [Header("CAMERA CONFIG")]
+        [SerializeField] private PlayerCameraConfig _currentConfig;
+
+        [EasyButtons.Button]
+        public virtual void ApplyConfig(PlayerCameraConfig config)
         {
-            _config = config;
+            _currentConfig = config;
+
+            _upAndDownRotationSpeed = config.UpAndDownRotationSpeed;
+            _leftAndRightRotationSpeed = config.LeftAndRightRotationSpeed;
+            _minimumPivot = config.MinimumPivot;
+            _maximumPivot = config.MaximumPivot;
+            _inverseY = config.InverseY;
+            _inverseX = config.InverseX;
+            _sensitiveY = config.SensitiveY;
+            _sensitiveX = config.SensitiveX;
         }
 
         public void ToggleCamera(bool enabled)

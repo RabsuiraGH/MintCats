@@ -10,15 +10,28 @@ namespace Core.Character
         [Header("MOVEMENT SETTINGS")]
         [SerializeField] protected Vector3 _movementDirection;
 
+        [SerializeField] protected float _currentMovementSpeed;
         [SerializeField] protected float _movementSpeed;
         [SerializeField] protected Vector3 _targetRotationDirection;
         [SerializeField] protected float _rotationSpeed = 50;
+
+        [SerializeField] private CharacterLocomotionConfig _currentConfig;
 
         protected virtual void Awake()
         {
         }
 
-        protected virtual void SetMovementSpeed(float movementSpeed)
+        [EasyButtons.Button]
+        protected virtual void ApplyConfig(CharacterLocomotionConfig config)
+        {
+            _currentConfig = config;
+            _movementSpeed = config.MovementSpeed;
+            _rotationSpeed = config.RotationSpeed;
+        }
+
+
+
+        /*protected virtual void SetMovementSpeed(float movementSpeed)
         {
             _movementSpeed = movementSpeed;
         }
@@ -32,11 +45,11 @@ namespace Core.Character
         {
             _movementDirection = movementDirection;
             _movementSpeed = movementSpeed;
-        }
+        }*/
 
         protected virtual void Move()
         {
-            CharacterController.Move(_movementDirection * _movementSpeed * Time.fixedDeltaTime);
+            CharacterController.Move(_movementDirection * _currentMovementSpeed * Time.fixedDeltaTime);
         }
     }
 }
