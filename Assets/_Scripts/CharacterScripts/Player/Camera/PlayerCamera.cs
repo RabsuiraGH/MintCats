@@ -8,7 +8,7 @@ namespace Core.Character.Player.Camera
 {
     public abstract class PlayerCamera : MonoBehaviour
     {
-        [field:Header("MAIN OBJECTS")]
+        [field: Header("MAIN OBJECTS")]
         [field: SerializeField] public UnityEngine.Camera CameraObject { get; private set; }
         [field: SerializeField] public Transform CameraTransform { get; private set; }
         [field: SerializeField] public PlayerManager PlayerManager { get; set; }
@@ -25,7 +25,7 @@ namespace Core.Character.Player.Camera
         [SerializeField] protected float _sensitiveY;
         [SerializeField] protected float _sensitiveX;
 
-        [field:Header("ROTATION VALUES")]
+        [field: Header("ROTATION VALUES")]
         [field: SerializeField, ReadOnly] public float LeftAndRightLookAngle { get; protected set; }
         [field: SerializeField, ReadOnly] public float UpAndDownLookAngle { get; protected set; }
 
@@ -33,6 +33,14 @@ namespace Core.Character.Player.Camera
         [SerializeField] private PlayerCameraConfig _currentConfig;
 
         [EasyButtons.Button]
+
+        protected void Awake()
+        {
+            if (_currentConfig != null)
+            {
+                ApplyConfig(_currentConfig);
+            }
+        }
         public virtual void ApplyConfig(PlayerCameraConfig config)
         {
             _currentConfig = config;

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38114af95a6105048a44affcf2acc4c9, type: 3}
   m_Name: ThirdPersonCameraConfig_Mouse
   m_EditorClassIdentifier: 
-  <UpAndDownRotationSpeed>k__BackingField: 150
-  <LeftAndRightRotationSpeed>k__BackingField: 220
+  <UpAndDownRotationSpeed>k__BackingField: 80
+  <LeftAndRightRotationSpeed>k__BackingField: 80
   <MinimumPivot>k__BackingField: -30
   <MaximumPivot>k__BackingField: 60
   <InverseY>k__BackingField: 1
