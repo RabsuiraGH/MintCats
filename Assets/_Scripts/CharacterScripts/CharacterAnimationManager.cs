@@ -38,7 +38,6 @@ namespace Core.Character
 
         public virtual void TriggerRequireToStop()
         {
-            Debug.Log(($"asd"));
             _animator.SetBool(_requireToStopHash, true);
         }
 
