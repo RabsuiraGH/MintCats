@@ -21,6 +21,7 @@ namespace Core.Character.Player
         {
             base.Awake();
             _playerManager.PlayerCameraManager.OnPlayerViewChanged += ApplyViewSettings;
+            _playerManager.InputManager.OnSprintRequested += SetRunning;
         }
 
         private void ApplyViewSettings(PlayerCamera _, PlayerViewMode viewMode)
@@ -42,20 +43,20 @@ namespace Core.Character.Player
             _backwardsMovementSpeed = playerConfig.BackwardsMovementSpeed;
         }
 
-        public void HandleAllMovement()
-        {
-            HandleGroundedMovement();
-            HandleRotation();
-        }
-
         public void GetVerticalAndHorizontalInputs(Vector2 movementInput)
         {
             VerticalInputMovement = movementInput.y;
             HorizontalInputMovement = movementInput.x;
         }
 
-        private void HandleGroundedMovement()
+        public override void HandleAllMovement()
         {
+            base.HandleAllMovement();
+        }
+
+        protected override void HandleGroundedMovement()
+        {
+            base.HandleGroundedMovement();
             if (_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.FirstPerson)
             {
                 FirstPersonMovement();
@@ -74,19 +75,44 @@ namespace Core.Character.Player
             _movementDirection.y = 0f;
             _movementDirection.Normalize();
 
-            if (_movementDirection.z < 0)
+            if (_movementDirection == Vector3.zero)
             {
-                _currentMovementSpeed = _backwardsMovementSpeed;
+                AccelerateTo(0);
+            }
+            else if (_movementDirection.z < 0)
+            {
+                AccelerateTo(_backwardsMovementSpeed);
             }
             else
             {
-                _currentMovementSpeed = _movementSpeed;
+                AccelerateTo(_movementSpeed);
             }
 
             Move();
         }
 
-        private void HandleRotation()
+        private void ThirdPersonMovement()
+        {
+            _movementDirection = _playerManager.PlayerCameraManager.ActivePlayerCamera.CameraTransform.forward * VerticalInputMovement;
+            _movementDirection =
+                _movementDirection + _playerManager.PlayerCameraManager.ActivePlayerCamera.CameraTransform.right * HorizontalInputMovement;
+
+            _movementDirection.y = 0f;
+            _movementDirection.Normalize();
+
+            if (_movementDirection == Vector3.zero)
+            {
+                AccelerateTo(0);
+            }
+            else
+            {
+                AccelerateTo(_movementSpeed);
+            }
+
+            Move();
+        }
+
+        protected override void HandleRotation()
         {
             if (_playerManager.PlayerCameraManager.PlayerViewMode is PlayerViewMode.FirstPerson)
             {
@@ -105,19 +131,6 @@ namespace Core.Character.Player
                 Quaternion.Slerp(_characterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
 
             _characterTransform.rotation = targetRotation;
-        }
-
-        private void ThirdPersonMovement()
-        {
-            _movementDirection = _playerManager.PlayerCameraManager.ActivePlayerCamera.CameraTransform.forward * VerticalInputMovement;
-            _movementDirection =
-                _movementDirection + _playerManager.PlayerCameraManager.ActivePlayerCamera.CameraTransform.right * HorizontalInputMovement;
-
-            _movementDirection.y = 0f;
-            _movementDirection.Normalize();
-
-
-            Move();
         }
 
         private void ThirdPersonRotation()

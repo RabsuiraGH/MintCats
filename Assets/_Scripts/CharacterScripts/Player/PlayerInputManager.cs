@@ -17,6 +17,7 @@ namespace Core.Character.Player
         [field: SerializeField] public float ZoomInput { get; private set; }
 
         public event Action OnSwitchCameraViewRequested;
+        public event Action<bool> OnSprintRequested;
 
 
         [SerializeField] private InputMaps _baseControls;
@@ -42,6 +43,9 @@ namespace Core.Character.Player
             _baseControls.Gameplay.MouseScroll.performed += i => MouseScrollInput = i.ReadValue<float>();
 
             _baseControls.Gameplay.SwitchCameraView.performed += i => OnSwitchCameraViewRequested?.Invoke();
+
+            _baseControls.Gameplay.Sprint.performed += i => OnSprintRequested?.Invoke(true);
+            _baseControls.Gameplay.Sprint.canceled += i => OnSprintRequested?.Invoke(false);
         }
 
         private void ReadPlayerInputRepeatedly()

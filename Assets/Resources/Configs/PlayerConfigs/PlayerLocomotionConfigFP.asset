@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MovementSpeed>k__BackingField: 3
   <RotationSpeed>k__BackingField: 25
+  <RunningSpeedMultiplier>k__BackingField: 2
+  <RunningAccelerationMultiplier>k__BackingField: 2
+  <AccelerationSpeed>k__BackingField: 0.1
+  <DecelerationSpeed>k__BackingField: 0.5
   <BackwardsMovementSpeed>k__BackingField: 1
