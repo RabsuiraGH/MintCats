@@ -8,6 +8,9 @@ namespace Core.Character
 
         [SerializeField] protected CharacterLocomotionManager _characterLocomotionManager;
 
+
+
+
         protected virtual void Awake()
         {
         }

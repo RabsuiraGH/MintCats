@@ -1,5 +1,3 @@
-using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Core.Character
@@ -49,7 +47,6 @@ namespace Core.Character
             IsRunning = isRunning;
         }
 
-
         protected virtual void AccelerateTo(float speed)
         {
             float acceleration = IsRunning ? _accelerationSpeed * _runningAccelerationMultiplier : _accelerationSpeed;
@@ -68,8 +65,13 @@ namespace Core.Character
                 _currentMovementSpeed = Mathf.MoveTowards(_currentMovementSpeed, targetSpeed, _decelerationSpeed * Time.deltaTime);
             }
 
+            if (_currentMovementSpeed != 0 && targetSpeed == 0 && _currentMovementSpeed > _movementSpeed)
+            {
+                _character.CharacterAnimationManager.TriggerRequireToStop();
+            }
 
-            float normalizedSpeed = Mathf.Lerp(0, _currentMovementSpeed >  _movementSpeed? 2 : 1, _currentMovementSpeed / _movementSpeed * _runningSpeedMultiplier);
+
+            float normalizedSpeed = Mathf.Lerp(0, _currentMovementSpeed > _movementSpeed ? 2 : 1, _currentMovementSpeed / _movementSpeed * _runningSpeedMultiplier);
 
 
             _character.CharacterAnimationManager.UpdateMovementParameters(0, normalizedSpeed);
