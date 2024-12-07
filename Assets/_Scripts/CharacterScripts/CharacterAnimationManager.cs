@@ -29,7 +29,7 @@ namespace Core.Character
 
         public virtual void UpdateMovementParameter(float vertical)
         {
-            _targetMovementParameterZ = vertical;
+                _targetMovementParameterZ = vertical;
             _currentMovementParameterZ = Mathf.MoveTowards(
                 _currentMovementParameterZ,
                 _targetMovementParameterZ,

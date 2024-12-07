@@ -6,10 +6,14 @@ namespace Core.Character
     {
         [field: SerializeField] public CharacterAnimationManager CharacterAnimationManager { get; private set; }
 
-        [SerializeField] protected CharacterLocomotionManager _characterLocomotionManager;
+        [field: SerializeField] public  CharacterLocomotionManager CharacterLocomotionManager{ get; private set; }
 
 
 
+        public virtual Transform GetCharacterTransform()
+        {
+            return CharacterLocomotionManager.CharacterTransform;
+        }
 
         protected virtual void Awake()
         {
@@ -25,7 +29,7 @@ namespace Core.Character
 
         protected virtual void FixedUpdate()
         {
-            _characterLocomotionManager.HandleAllMovement();
+            CharacterLocomotionManager.HandleAllMovement();
         }
     }
 }

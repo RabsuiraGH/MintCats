@@ -14,6 +14,8 @@ namespace Core.Character.Player
         [field: SerializeField] public float VerticalInputMovement { get; set; }
         [field: SerializeField] public float HorizontalInputMovement { get; set; }
 
+        [SerializeField] private float _smoothInputTime = 25f;
+
         [SerializeField] private PlayerLocomotionConfig _firstPersonConfig;
         [SerializeField] private PlayerLocomotionConfig _thirdPersonConfig;
 
@@ -45,8 +47,17 @@ namespace Core.Character.Player
 
         public void GetVerticalAndHorizontalInputs(Vector2 movementInput)
         {
-            VerticalInputMovement = movementInput.y;
-            HorizontalInputMovement = movementInput.x;
+            VerticalInputMovement = Mathf.Lerp(VerticalInputMovement, movementInput.y, Time.deltaTime * _smoothInputTime);
+            HorizontalInputMovement = Mathf.Lerp(HorizontalInputMovement, movementInput.x, Time.deltaTime * _smoothInputTime);
+            if (Mathf.Abs(HorizontalInputMovement - movementInput.x) < 0.1)
+            {
+                HorizontalInputMovement = movementInput.x;
+            }
+
+            if (Mathf.Abs(VerticalInputMovement - movementInput.y) < 0.1)
+            {
+                VerticalInputMovement = movementInput.y;
+            }
         }
 
         public override void HandleAllMovement()
@@ -77,18 +88,18 @@ namespace Core.Character.Player
 
             if (_movementDirection == Vector3.zero)
             {
-                AccelerateTo(0);
+                SetTargetMovementSpeed(0);
+                //AccelerateTo(0);
             }
             else if (VerticalInputMovement < 0)
             {
-                AccelerateTo(_backwardsMovementSpeed);
+                SetTargetMovementSpeed(_backwardsMovementSpeed);
             }
             else
             {
-                AccelerateTo(_movementSpeed);
+                SetTargetMovementSpeed(_movementSpeed);
             }
 
-            Move();
         }
 
         private void ThirdPersonMovement()
@@ -100,16 +111,14 @@ namespace Core.Character.Player
             _movementDirection.y = 0f;
             _movementDirection.Normalize();
 
-            if (_movementDirection == Vector3.zero)
+            if (_movementDirection == Vector3.zero && VerticalInputMovement == 0 && HorizontalInputMovement == 0)
             {
-                AccelerateTo(0);
+                SetTargetMovementSpeed(0);
             }
             else
             {
-                AccelerateTo(_movementSpeed);
+                SetTargetMovementSpeed(_movementSpeed);
             }
-
-            Move();
         }
 
         protected override void HandleRotation()
@@ -128,9 +137,9 @@ namespace Core.Character.Player
         {
             Quaternion newRotation = Quaternion.Euler(0, _playerManager.PlayerCameraManager.ActivePlayerCamera.LeftAndRightLookAngle, 0);
             Quaternion targetRotation =
-                Quaternion.Slerp(_characterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
+                Quaternion.Slerp(CharacterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
 
-            _characterTransform.rotation = targetRotation;
+            CharacterTransform.rotation = targetRotation;
         }
 
         private void ThirdPersonRotation()
@@ -147,13 +156,13 @@ namespace Core.Character.Player
 
             if (_targetRotationDirection == Vector3.zero)
             {
-                _targetRotationDirection = _characterTransform.forward;
+                _targetRotationDirection = CharacterTransform.forward;
             }
 
             Quaternion newRotation = Quaternion.LookRotation(_targetRotationDirection);
             Quaternion targetRotation =
-                Quaternion.Slerp(_characterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
-            _characterTransform.rotation = targetRotation;
+                Quaternion.Slerp(CharacterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
+            CharacterTransform.rotation = targetRotation;
         }
     }
 }

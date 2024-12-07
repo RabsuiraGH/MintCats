@@ -12,7 +12,13 @@ namespace Core.Character.Player.Camera
             }
         }
 
-        protected override void SetRotation()
+        public void SyncRotationWithPlayer()
+        {
+            LeftAndRightLookAngle = PlayerManager.GetCharacterTransform().rotation.eulerAngles.y;
+
+        }
+
+        protected override void ApplyRotation()
         {
             Vector3 cameraRotation = Vector3.zero;
 
@@ -34,7 +40,7 @@ namespace Core.Character.Player.Camera
 
             UpAndDownLookAngle = Mathf.Clamp(UpAndDownLookAngle, _minimumPivot, _maximumPivot);
 
-            SetRotation();
+            ApplyRotation();
         }
     }
 }

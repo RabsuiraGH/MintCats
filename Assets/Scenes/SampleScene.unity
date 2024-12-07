@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &33185963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 33185965}
+  - component: {fileID: 33185964}
+  m_Layer: 0
+  m_Name: BotController
+  m_TagString: Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &33185964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33185963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808b8fe98781f0043af404120b95d696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 2933743062051777276}
+--- !u!4 &33185965
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33185963}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &279525844
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,6 +2054,8 @@ MonoBehaviour:
   _requireToStopHash: 0
   _targetMovementParameterZ: 0
   _currentMovementParameterZ: 0
+  _targetMovementParameterX: 0
+  _currentMovementParameterX: 0
   _movementTransitionCoefficient: 2
   _firstPersonViewHash: 0
 --- !u!1 &1710456940
@@ -2769,6 +2816,63 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &353894383245035102
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199357656771001550, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827663249589053044, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+      propertyPath: m_Name
+      value: Y Bot Real Bot
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
 --- !u!1 &404233102148914846
 GameObject:
   m_ObjectHideFlags: 0
@@ -3598,6 +3702,17 @@ Transform:
   - {fileID: 1945877032236384257}
   m_Father: {fileID: 1252256846611039994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2933743062051777276 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6778055917689621001, guid: dfabf8a43f15f5f47b14160d92c3145e, type: 3}
+  m_PrefabInstance: {fileID: 353894383245035102}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 752d4570a45957a4f8fde793f5aa90b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2981747908592868739
 GameObject:
   m_ObjectHideFlags: 0
@@ -4101,16 +4216,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc40f3d2fa598745b933d9ca4e3db7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterTransform: {fileID: 5095815776407220777}
+  <CharacterTransform>k__BackingField: {fileID: 5095815776407220777}
   _character: {fileID: 6705801507120461900}
   <CharacterController>k__BackingField: {fileID: 4275531322976253004}
   <IsRunning>k__BackingField: 0
   _movementDirection: {x: 0, y: 0, z: 0}
-  _moveAmount: {x: 0, y: 0, z: 0}
+  _targetMovementSpeed: 0
   _currentMovementSpeed: 0
   _movementSpeed: 3
   _accelerationSpeed: 0.1
-  _decelerationSpeed: 0.5
+  _decelerationSpeed: 20
   _runningAccelerationMultiplier: 2
   _runningSpeedMultiplier: 2
   _targetRotationDirection: {x: 0, y: 0, z: 0}
@@ -4120,6 +4235,7 @@ MonoBehaviour:
   _backwardsMovementSpeed: 0
   <VerticalInputMovement>k__BackingField: 0
   <HorizontalInputMovement>k__BackingField: 0
+  _smoothInputTime: 15
   _firstPersonConfig: {fileID: 11400000, guid: ec947083ae929544e916c540668f486a, type: 2}
   _thirdPersonConfig: {fileID: 11400000, guid: 8e7766c45d9894e458b5f788e317c009, type: 2}
 --- !u!1 &4346314195503882236
@@ -4954,7 +5070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CharacterAnimationManager>k__BackingField: {fileID: 1682388641}
-  _characterLocomotionManager: {fileID: 4338153321478420954}
+  <CharacterLocomotionManager>k__BackingField: {fileID: 4338153321478420954}
   <PlayerCameraManager>k__BackingField: {fileID: 1559145512662007820}
   <PlayerAnimationManager>k__BackingField: {fileID: 1682388641}
   <InputManager>k__BackingField: {fileID: 8376709628056672217}
@@ -5888,3 +6004,5 @@ SceneRoots:
   - {fileID: 1391473539}
   - {fileID: 5095815776407220777}
   - {fileID: 4657285508589998255}
+  - {fileID: 33185965}
+  - {fileID: 353894383245035102}

@@ -74,6 +74,7 @@ namespace Core.Character.Player.Camera
                 // TODO: UNCOMMENT IF WE WANNA ROTATE PLAYER TO LOOK AT NEEDED POINT
                 //_firstPersonCamera.SyncCamera(_thirdPersonPlayerCamera);
                 PlayerViewMode = PlayerViewMode.FirstPerson;
+                _firstPersonCamera.SyncRotationWithPlayer();
                 _firstPersonCamera.ToggleCamera(true);
                 _thirdPersonPlayerCamera.ToggleCamera(false);
             }

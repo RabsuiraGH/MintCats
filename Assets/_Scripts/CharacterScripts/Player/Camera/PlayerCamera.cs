@@ -64,13 +64,13 @@ namespace Core.Character.Player.Camera
         {
             LeftAndRightLookAngle = fromCamera.LeftAndRightLookAngle;
             UpAndDownLookAngle = fromCamera.UpAndDownLookAngle;
-            SetRotation();
+            ApplyRotation();
         }
 
 
 
         public abstract void HandleAllCameraActions();
 
-        protected abstract void SetRotation();
+        protected abstract void ApplyRotation();
     }
 }

@@ -1,24 +1,28 @@
 using System;
+using Core.Character;
 using Core.Character.Player;
 using Core.GameEventSystem;
 using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] private Transform _cube;
-    [SerializeField] private Transform _cube2;
-    [SerializeField] private Transform _cube3;
+    [SerializeField] private CharacterManager character;
 
-    private void Update()
+    [EasyButtons.Button]
+    private void SetDirection(Vector3 movementDirection)
     {
-        Debug.Log(($"New dl"));
-        MoveCubes();
+        character.CharacterLocomotionManager.SetMovementDirection(movementDirection);
     }
 
-    private void MoveCubes()
+    [EasyButtons.Button]
+    private void SetSpeed(float movementSpeed)
     {
-        _cube.Translate(_cube.up * Time.deltaTime * 1f);
-        _cube2.Translate(_cube2.forward * Time.deltaTime * 1f);
-        _cube3.Translate(_cube3.right * Time.deltaTime * 1f);
+        character.CharacterLocomotionManager.SetTargetMovementSpeed(movementSpeed);
+    }
+
+    [EasyButtons.Button]
+    private void SetRunning(bool running)
+    {
+        character.CharacterLocomotionManager.SetRunning(running);
     }
 }

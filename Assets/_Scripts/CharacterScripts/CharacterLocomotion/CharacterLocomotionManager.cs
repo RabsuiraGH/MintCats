@@ -1,18 +1,22 @@
+using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Core.Character
 {
     public class CharacterLocomotionManager : MonoBehaviour
     {
-        [SerializeField] protected Transform _characterTransform;
+        [field: SerializeField] public Transform CharacterTransform { get; protected set; }
         [SerializeField] private CharacterManager _character;
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
 
         [field: SerializeField] public bool IsRunning { get; protected set; }
+
         [Header("MOVEMENT SETTINGS")]
         [SerializeField] protected Vector3 _movementDirection;
-        [SerializeField] private Vector3 _moveAmount;
 
+        [SerializeField] private float _targetMovementSpeed;
         [SerializeField] protected float _currentMovementSpeed;
         [SerializeField] protected float _movementSpeed;
 
@@ -70,7 +74,6 @@ namespace Core.Character
                 _character.CharacterAnimationManager.TriggerRequireToStop();
             }
 
-
             float normalizedSpeed = Mathf.Lerp(0, _currentMovementSpeed > _movementSpeed ? 2 : 1, _currentMovementSpeed / _movementSpeed * _runningSpeedMultiplier);
 
             float forward = Vector3.Dot(_movementDirection, transform.forward);
@@ -83,27 +86,26 @@ namespace Core.Character
             _character.CharacterAnimationManager.UpdateMovementParameter(normalizedSpeed * forward);
         }
 
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual void SetMovementSpeed(float movementSpeed)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public virtual void SetTargetMovementSpeed(float movementSpeed)
         {
-            _movementSpeed = movementSpeed;
+            _targetMovementSpeed = movementSpeed;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual void SetMovementDirection(Vector3 movementDirection)
+        public virtual void SetMovementDirection(Vector3 movementDirection)
         {
-            _movementDirection = movementDirection;
+            _movementDirection = movementDirection.normalized;
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual void SetMovement(Vector3 movementDirection, float movementSpeed)
-        {
-            _movementDirection = movementDirection;
-            _movementSpeed = movementSpeed;
-        }*/
 
         protected void Update()
         {
+            AccelerateTo(_targetMovementSpeed);
+        }
+
+        protected void FixedUpdate()
+        {
+            Move();
         }
 
         protected virtual void Move()
@@ -119,6 +121,19 @@ namespace Core.Character
 
         protected virtual void HandleRotation()
         {
+            if(_movementDirection == Vector3.zero)
+            {
+                _targetRotationDirection = CharacterTransform.forward;
+            }
+            else
+            {
+                _targetRotationDirection = _movementDirection;
+
+            }
+            Quaternion newRotation = Quaternion.LookRotation(_targetRotationDirection);
+            Quaternion targetRotation =
+                Quaternion.Slerp(CharacterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
+            CharacterTransform.rotation = targetRotation;
         }
 
         protected virtual void HandleGroundedMovement()

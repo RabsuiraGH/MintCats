@@ -56,7 +56,7 @@ namespace Core.Character.Player.Camera
             HandleCollision();
         }
 
-        protected override void SetRotation()
+        protected override void ApplyRotation()
         {
             Vector3 cameraRotation = Vector3.zero;
             Quaternion targetRotation;
@@ -141,7 +141,7 @@ namespace Core.Character.Player.Camera
             UpAndDownLookAngle = Mathf.Clamp(UpAndDownLookAngle, _minimumPivot, _maximumPivot);
 
 
-            SetRotation();
+            ApplyRotation();
         }
     }
 }
