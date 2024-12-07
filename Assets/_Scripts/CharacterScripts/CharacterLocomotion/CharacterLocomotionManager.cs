@@ -73,8 +73,14 @@ namespace Core.Character
 
             float normalizedSpeed = Mathf.Lerp(0, _currentMovementSpeed > _movementSpeed ? 2 : 1, _currentMovementSpeed / _movementSpeed * _runningSpeedMultiplier);
 
+            float forward = Vector3.Dot(_movementDirection, transform.forward);
+            float side = Vector3.Dot(_movementDirection, transform.right);
 
-            _character.CharacterAnimationManager.UpdateMovementParameters(0, normalizedSpeed);
+            forward = Mathf.Round(forward);
+            side = Mathf.Round(side);
+
+            _character.CharacterAnimationManager.UpdateSideMovement(normalizedSpeed * side);
+            _character.CharacterAnimationManager.UpdateMovementParameter(normalizedSpeed * forward);
         }
 
         /*[MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 422b61096aa163643ba6db609aa607e3, type: 3}
   m_Name: PlayerLocomotionConfigFP
   m_EditorClassIdentifier: 
-  <MovementSpeed>k__BackingField: 3
+  <MovementSpeed>k__BackingField: 2
   <RotationSpeed>k__BackingField: 25
   <RunningSpeedMultiplier>k__BackingField: 2
   <RunningAccelerationMultiplier>k__BackingField: 2
-  <AccelerationSpeed>k__BackingField: 0.1
-  <DecelerationSpeed>k__BackingField: 0.5
+  <AccelerationSpeed>k__BackingField: 5
+  <DecelerationSpeed>k__BackingField: 20
   <BackwardsMovementSpeed>k__BackingField: 1

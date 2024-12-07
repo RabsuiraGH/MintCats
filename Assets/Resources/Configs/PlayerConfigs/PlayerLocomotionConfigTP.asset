@@ -17,5 +17,5 @@ MonoBehaviour:
   <RunningSpeedMultiplier>k__BackingField: 2
   <RunningAccelerationMultiplier>k__BackingField: 2
   <AccelerationSpeed>k__BackingField: 5
-  <DecelerationSpeed>k__BackingField: 1
+  <DecelerationSpeed>k__BackingField: 20
   <BackwardsMovementSpeed>k__BackingField: 0

@@ -14,6 +14,9 @@ namespace Core.Character
 
         [SerializeField] private float _targetMovementParameterZ;
         [SerializeField] private float _currentMovementParameterZ;
+
+        [SerializeField] private float _targetMovementParameterX;
+        [SerializeField] private float _currentMovementParameterX;
         [SerializeField] private float _movementTransitionCoefficient;
 
 
@@ -24,7 +27,7 @@ namespace Core.Character
             _requireToStopHash = Animator.StringToHash("RequireToStop");
         }
 
-        public virtual void UpdateMovementParameters(float horizontal, float vertical)
+        public virtual void UpdateMovementParameter(float vertical)
         {
             _targetMovementParameterZ = vertical;
             _currentMovementParameterZ = Mathf.MoveTowards(
@@ -33,8 +36,18 @@ namespace Core.Character
                 _movementTransitionCoefficient * (1 + Mathf.Abs(_currentMovementParameterZ - _targetMovementParameterZ)) * Time.deltaTime);
 
             _animator.SetFloat(_movementZHash, _currentMovementParameterZ);
-            _animator.SetFloat(_movementXHash, horizontal);
         }
+        public virtual void UpdateSideMovement(float horizontal)
+        {
+            _targetMovementParameterX = horizontal;
+            _currentMovementParameterX = Mathf.MoveTowards(
+                _currentMovementParameterX,
+                _targetMovementParameterX,
+                _movementTransitionCoefficient * (1 + Mathf.Abs(_currentMovementParameterX - _targetMovementParameterX)) * Time.deltaTime);
+
+            _animator.SetFloat(_movementXHash, _currentMovementParameterX);
+        }
+
 
         public virtual void TriggerRequireToStop()
         {

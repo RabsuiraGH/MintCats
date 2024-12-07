@@ -13,9 +13,9 @@ namespace Core.Character.Player
             _firstPersonViewHash = Animator.StringToHash("FirstPersonView");
         }
 
-        public override void UpdateMovementParameters(float horizontal, float vertical)
+        public override void UpdateMovementParameter(float vertical)
         {
-            base.UpdateMovementParameters(horizontal, vertical);
+            base.UpdateMovementParameter(vertical);
         }
 
         public void UpdateViewParameter(PlayerViewMode viewMode)

@@ -79,7 +79,7 @@ namespace Core.Character.Player
             {
                 AccelerateTo(0);
             }
-            else if (_movementDirection.z < 0)
+            else if (VerticalInputMovement < 0)
             {
                 AccelerateTo(_backwardsMovementSpeed);
             }
