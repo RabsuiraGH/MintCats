@@ -1,4 +1,5 @@
 using System;
+using Unity.XR.OpenVR;
 using UnityEngine;
 
 namespace Core.Character
@@ -11,6 +12,7 @@ namespace Core.Character
         [SerializeField] private int _movementXHash;
         [SerializeField] private int _movementZHash;
         [SerializeField] private int _requireToStopHash;
+        [SerializeField] private int _isFallingHash;
 
         [SerializeField] private float _targetMovementParameterZ;
         [SerializeField] private float _currentMovementParameterZ;
@@ -25,6 +27,7 @@ namespace Core.Character
             _movementXHash = Animator.StringToHash("MovementX");
             _movementZHash = Animator.StringToHash("MovementZ");
             _requireToStopHash = Animator.StringToHash("RequireToStop");
+            _isFallingHash = Animator.StringToHash("IsFalling");
         }
 
         public virtual void UpdateMovementParameter(float vertical)
@@ -46,6 +49,11 @@ namespace Core.Character
                 _movementTransitionCoefficient * (1 + Mathf.Abs(_currentMovementParameterX - _targetMovementParameterX)) * Time.deltaTime);
 
             _animator.SetFloat(_movementXHash, _currentMovementParameterX);
+        }
+
+        public virtual void UpdateFallingParameter(bool isFalling)
+        {
+            _animator.SetBool(_isFallingHash, isFalling);
         }
 
 

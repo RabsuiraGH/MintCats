@@ -5,13 +5,21 @@ using UnityEngine;
 
 namespace Core.Character
 {
-    public class CharacterLocomotionManager : MonoBehaviour
+    public class CharacterLocomotionManager : MonoBehaviour,IMovementManager
     {
         [field: SerializeField] public Transform CharacterTransform { get; protected set; }
         [SerializeField] private CharacterManager _character;
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
 
-        [field: SerializeField] public bool IsRunning { get; protected set; }
+        public bool IsMoving { get => _isMoving; set => _isMoving = value; }
+        public bool IsRunning { get => _isRunning; set => _isRunning = value; }
+        public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
+        public bool CanMove { get => _canMove; set => _canMove = value; }
+
+        [SerializeField] protected bool _isRunning = false;
+        [SerializeField] protected bool _isGrounded = true;
+        [SerializeField] protected bool _canMove = true;
+        [SerializeField] protected bool _isMoving = false;
 
         [Header("MOVEMENT SETTINGS")]
         [SerializeField] protected Vector3 _movementDirection;
@@ -28,7 +36,19 @@ namespace Core.Character
         [SerializeField] protected Vector3 _targetRotationDirection;
         [SerializeField] protected float _rotationSpeed = 50;
 
+        [SerializeField] private Vector3 _gravityVelocity;
+
         [SerializeField] private CharacterLocomotionConfig _currentConfig;
+
+#if UNITY_EDITOR
+        [EasyButtons.Button]
+        protected void SetPosition(Vector3 position)
+        {
+            CharacterController.enabled = false;
+            CharacterTransform.position = position;
+            CharacterController.enabled = true;
+        }
+#endif
 
         protected virtual void Awake()
         {
@@ -48,13 +68,13 @@ namespace Core.Character
 
         public virtual void SetRunning(bool isRunning)
         {
-            IsRunning = isRunning;
+            _isRunning = isRunning;
         }
 
         protected virtual void AccelerateTo(float speed)
         {
-            float acceleration = IsRunning ? _accelerationSpeed * _runningAccelerationMultiplier : _accelerationSpeed;
-            float targetSpeed = IsRunning ? speed * _runningSpeedMultiplier : speed;
+            float acceleration = _isRunning ? _accelerationSpeed * _runningAccelerationMultiplier : _accelerationSpeed;
+            float targetSpeed = _isRunning ? speed * _runningSpeedMultiplier : speed;
 
             if (_currentMovementSpeed <= targetSpeed)
             {
@@ -110,13 +130,33 @@ namespace Core.Character
 
         protected virtual void Move()
         {
+            if(!_canMove) return;
             CharacterController.Move(_movementDirection * _currentMovementSpeed * Time.fixedDeltaTime);
         }
 
         public virtual void HandleAllMovement()
         {
+            HandleGravity();
             HandleRotation();
             HandleGroundedMovement();
+        }
+
+        protected virtual void HandleGravity()
+        {
+            if (!_isGrounded)
+            {
+                _gravityVelocity.y += Physics.gravity.y * Time.deltaTime;
+                _character.CharacterAnimationManager.UpdateFallingParameter(true);
+            }
+            else
+            {
+                _gravityVelocity.y = -0.1f;
+                _character.CharacterAnimationManager.UpdateFallingParameter(false);
+            }
+
+            CharacterController.Move(_gravityVelocity * Time.deltaTime);
+
+            _isGrounded = CharacterController.isGrounded;
         }
 
         protected virtual void HandleRotation()
@@ -140,5 +180,7 @@ namespace Core.Character
         {
             //
         }
+
+
     }
 }
