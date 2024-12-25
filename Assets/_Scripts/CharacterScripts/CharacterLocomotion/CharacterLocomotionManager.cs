@@ -168,6 +168,7 @@ namespace Core.Character
             _gravityVelocity.y = Mathf.Sqrt(_jumpHeight * -2.0f * Physics.gravity.y);
             _isGrounded = false;
             _isJumping = true;
+            _character.CharacterAnimationManager.TriggerJump();
         }
 
         public virtual void HandleAllMovement()

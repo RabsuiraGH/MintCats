@@ -13,6 +13,7 @@ namespace Core.Character
         [SerializeField] private int _movementZHash;
         [SerializeField] private int _requireToStopHash;
         [SerializeField] private int _isFallingHash;
+        [SerializeField] private int _isJumpingHash;
 
         [SerializeField] private float _targetMovementParameterZ;
         [SerializeField] private float _currentMovementParameterZ;
@@ -28,6 +29,7 @@ namespace Core.Character
             _movementZHash = Animator.StringToHash("MovementZ");
             _requireToStopHash = Animator.StringToHash("RequireToStop");
             _isFallingHash = Animator.StringToHash("IsFalling");
+            _isJumpingHash = Animator.StringToHash("IsJumping");
         }
 
         public virtual void UpdateMovementParameter(float vertical)
@@ -61,6 +63,12 @@ namespace Core.Character
         {
             _animator.SetBool(_requireToStopHash, true);
         }
+
+        public virtual void TriggerJump()
+        {
+            _animator.SetBool(_isJumpingHash, true);
+        }
+
 
     }
 }

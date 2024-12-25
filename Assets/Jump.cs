@@ -2,15 +2,15 @@ using UnityEngine;
 
 namespace Core
 {
-    public class RunToStop : StateMachineBehaviour
+    public class Jump : StateMachineBehaviour
     {
-
-        private static readonly int RequireToStopParameterHash = Animator.StringToHash("RequireToStop");
+        private static readonly int IsJumpingHash = Animator.StringToHash("IsJumping");
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-         //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-         //{
-         //}
+        //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        //{
+        //    
+        //}
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -21,7 +21,7 @@ namespace Core
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            animator.SetBool(RequireToStopParameterHash, false);
+            animator.SetBool(IsJumpingHash, false);
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove()
