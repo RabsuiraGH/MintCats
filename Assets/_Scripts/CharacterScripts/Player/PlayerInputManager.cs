@@ -18,6 +18,7 @@ namespace Core.Character.Player
 
         public event Action OnSwitchCameraViewRequested;
         public event Action<bool> OnSprintRequested;
+        public event Action OnJumpRequested;
 
 
         [SerializeField] private InputMaps _baseControls;
@@ -46,6 +47,8 @@ namespace Core.Character.Player
 
             _baseControls.Gameplay.Sprint.performed += i => OnSprintRequested?.Invoke(true);
             _baseControls.Gameplay.Sprint.canceled += i => OnSprintRequested?.Invoke(false);
+
+            _baseControls.Gameplay.Jump.performed += i => OnJumpRequested?.Invoke();
         }
 
         private void ReadPlayerInputRepeatedly()

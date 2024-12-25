@@ -1,18 +1,22 @@
 using Core.Character;
 using Core.Utility.UnityUtility;
 using UnityEngine;
+
 namespace Core
 {
     public class FallToLand : StateMachineBehaviour
     {
         private IMovementManager _movementManager = null;
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if(_movementManager == null)
+            if (_movementManager == null)
             {
                 _movementManager = animator.gameObject.GetComponentForce<IMovementManager>();
             }
+
+            _movementManager.IsJumping = false;
             _movementManager.CanMove = false;
         }
 

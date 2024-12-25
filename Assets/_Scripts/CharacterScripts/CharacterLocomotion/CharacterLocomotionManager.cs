@@ -5,19 +5,45 @@ using UnityEngine;
 
 namespace Core.Character
 {
-    public class CharacterLocomotionManager : MonoBehaviour,IMovementManager
+    public class CharacterLocomotionManager : MonoBehaviour, IMovementManager
     {
         [field: SerializeField] public Transform CharacterTransform { get; protected set; }
         [SerializeField] private CharacterManager _character;
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
 
-        public bool IsMoving { get => _isMoving; set => _isMoving = value; }
-        public bool IsRunning { get => _isRunning; set => _isRunning = value; }
-        public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
-        public bool CanMove { get => _canMove; set => _canMove = value; }
+        public bool IsMoving
+        {
+            get => _isMoving;
+            set => _isMoving = value;
+        }
+
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set => _isRunning = value;
+        }
+
+        public bool IsGrounded
+        {
+            get => _isGrounded;
+            set => _isGrounded = value;
+        }
+
+        public bool IsJumping
+        {
+            get => _isJumping;
+            set => _isJumping = value;
+        }
+
+        public bool CanMove
+        {
+            get => _canMove;
+            set => _canMove = value;
+        }
 
         [SerializeField] protected bool _isRunning = false;
         [SerializeField] protected bool _isGrounded = true;
+        [SerializeField] protected bool _isJumping = true;
         [SerializeField] protected bool _canMove = true;
         [SerializeField] protected bool _isMoving = false;
 
@@ -37,6 +63,7 @@ namespace Core.Character
         [SerializeField] protected float _rotationSpeed = 50;
 
         [SerializeField] private Vector3 _gravityVelocity;
+        [SerializeField] private float _jumpHeight;
 
         [SerializeField] private CharacterLocomotionConfig _currentConfig;
 
@@ -130,8 +157,17 @@ namespace Core.Character
 
         protected virtual void Move()
         {
-            if(!_canMove) return;
+            if (!_canMove) return;
             CharacterController.Move(_movementDirection * _currentMovementSpeed * Time.fixedDeltaTime);
+        }
+
+        protected virtual void Jump()
+        {
+            if (!_isGrounded || !CanMove) return;
+
+            _gravityVelocity.y = Mathf.Sqrt(_jumpHeight * -2.0f * Physics.gravity.y);
+            _isGrounded = false;
+            _isJumping = true;
         }
 
         public virtual void HandleAllMovement()
@@ -146,7 +182,12 @@ namespace Core.Character
             if (!_isGrounded)
             {
                 _gravityVelocity.y += Physics.gravity.y * Time.deltaTime;
-                _character.CharacterAnimationManager.UpdateFallingParameter(true);
+
+                // TODO: Split to 2 methods
+                if (_gravityVelocity.y <= 0)
+                    _character.CharacterAnimationManager.UpdateFallingParameter(true);
+                else if (_gravityVelocity.y > 0)
+                    _isJumping = true;
             }
             else
             {
@@ -161,15 +202,15 @@ namespace Core.Character
 
         protected virtual void HandleRotation()
         {
-            if(_movementDirection == Vector3.zero)
+            if (_movementDirection == Vector3.zero)
             {
                 _targetRotationDirection = CharacterTransform.forward;
             }
             else
             {
                 _targetRotationDirection = _movementDirection;
-
             }
+
             Quaternion newRotation = Quaternion.LookRotation(_targetRotationDirection);
             Quaternion targetRotation =
                 Quaternion.Slerp(CharacterTransform.rotation, newRotation, _rotationSpeed * Time.fixedDeltaTime);
@@ -180,7 +221,5 @@ namespace Core.Character
         {
             //
         }
-
-
     }
 }

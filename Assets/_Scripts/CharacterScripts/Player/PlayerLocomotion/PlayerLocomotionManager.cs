@@ -1,4 +1,3 @@
-using Core.Character;
 using Core.Character.Player.Camera;
 using UnityEngine;
 
@@ -24,6 +23,7 @@ namespace Core.Character.Player
             base.Awake();
             _playerManager.PlayerCameraManager.OnPlayerViewChanged += ApplyViewSettings;
             _playerManager.InputManager.OnSprintRequested += SetRunning;
+            _playerManager.InputManager.OnJumpRequested += Jump;
         }
 
         private void ApplyViewSettings(PlayerCamera _, PlayerViewMode viewMode)
