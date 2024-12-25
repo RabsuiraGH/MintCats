@@ -1,10 +1,11 @@
+using Core.Character;
 using UnityEngine;
 
 namespace Core
 {
     public class Jump : StateMachineBehaviour
     {
-        private static readonly int IsJumpingHash = Animator.StringToHash("IsJumping");
+        private static readonly int IsJumpingHash = CharacterAnimationManager.IsJumpingHash;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
